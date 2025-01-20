@@ -99,8 +99,8 @@ function draw() {
     
     // Параметрів освітлення
     const ambientStrength = 0.1; // Сила ambient освітлення
-    const specularStrength = 0.5; // Сила спекулярного освітлення
-    const shininess = 32.0; // Жорсткість поверхні
+    const specularStrength = 0.9; // Сила спекулярного освітлення
+    const shininess = 10.0; // Жорсткість поверхні
 
     // Позиція спостерігача (камери)
     const viewPosition = [0.0, 0.0, 30.0]; // Камера знаходиться за об'єктом
@@ -154,14 +154,14 @@ function CreateSurfaceData(uSteps, vSteps) {
 
             // Обчислення дотичних для розрахунку нормалі
             const du = [
-                (u * u - v * v - 1) / (u * u + v * v),
-                (-2 * u * v) / (u * u + v * v),
-                2
+                x + (1 / 3) * Math.pow(u + uStep, 3) - (u + uStep) * Math.pow(v, 2) + (u + uStep) / ((u + uStep) ** 2 + v ** 2) - x,
+                y - Math.pow((u + uStep), 2) * v + (1 / 3) * Math.pow(v, 3) - v / ((u + uStep) ** 2 + v ** 2) - y,
+                z + 2 * (u + uStep) - z,
             ];
             const dv = [
-                (-2 * u * v) / (u * u + v * v),
-                (v * v - u * u - 1) / (u * u + v * v),
-                0
+                x + (1 / 3) * Math.pow(u, 3) - u * Math.pow(v + vStep, 2) + u / (u ** 2 + (v + vStep) ** 2) - x,
+                y - Math.pow(u, 2) * (v + vStep) + (1 / 3) * Math.pow((v + vStep), 3) - (v + vStep) / (u ** 2 + (v + vStep) ** 2) - y,
+                z + 2 * u - z,
             ];
             const normal = normalize(cross(du, dv));
 
